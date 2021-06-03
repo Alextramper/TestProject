@@ -1,19 +1,23 @@
 package workpackage.platform;
 
+import org.openqa.selenium.Platform;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import java.util.concurrent.TimeUnit;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import java.net.URL;
+
 
 
 public class WebdriverFactory {
 
-    public static WebDriver getChromeDriver() {
-        String path = System.getProperty("user.dir");
-        System.setProperty("webdriver.chrome.driver", path + "//src//test//resources//chromedriver.exe");
-        WebDriver webDriver = new ChromeDriver();
-        webDriver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        System.out.println("Driver is run");
+    final static String PATH = System.getProperty("user.dir") + "//src//test//resources//grid//";
+
+    public static WebDriver getChromeDriver(URL hubURLAdress) {
+        System.setProperty("webdriver.chrome.driver", PATH + "chromedriver.exe");
+        ChromeOptions chrOptions = new ChromeOptions();
+        chrOptions.setCapability("platform", Platform.WINDOWS);
+        WebDriver webDriver = new RemoteWebDriver(hubURLAdress, chrOptions);
+        System.out.println("ChromeDriver is run");
         return webDriver;
     }
-
 }
